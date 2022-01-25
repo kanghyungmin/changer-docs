@@ -56,7 +56,7 @@ let kittens = api.kittens.get();
 **Description:** show all balance for each pair
 
 ### HTTP Request 
-`***GET*** /v1/balances` 
+`GET /v1/balances` 
 
 **Responses**
 
