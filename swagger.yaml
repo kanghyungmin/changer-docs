@@ -1,0 +1,418 @@
+openapi: 3.0.0
+servers:
+  - url: https://cefi-api-dev.changer.io
+  - url: http://localhost:8800
+info:
+  #description: MIT
+  version: "1.0.0"
+  title: Changer Pro API
+  license:
+    name: MIT
+    url: 'https://opensource.org/licenses/MIT'
+  #contact:
+  # email: help@changer.io
+tags:
+  - name: Balances
+    description: ''
+  - name: Quote
+    description: ''
+  - name: Trade
+    description: ''
+  - name: Common
+    description: ''
+paths:
+  /v1/balances:
+    get:
+      summary: ''
+      operationId: ''
+      description: show all balance for each pair 
+      responses:
+        '200':
+          description: List all balances.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Balances'
+        '401':
+          description: Unauthorized
+      tags:
+        - Balances
+  /v1/changer/quote:
+    get:
+      summary: ''
+      operationId: ''
+      security: []
+      description: Get a quote for a input pair.
+      parameters:
+        - in: query
+          name: ticker
+          description: a pair to get a quote
+          required: true
+          schema:
+            type: string
+          example: "btc_usdt"
+          
+        - in: query
+          name: quantity
+          description: quantity to sell or buy 
+          required: true
+          schema: 
+            type: string
+            example : 1
+            
+      responses:
+        '200':
+          description: item created
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quote'
+        '401':
+          description: Unauthorized
+      tags:
+        - Quote
+#        '400':
+#          description: 'invalid input, object invalid'
+#        '409':
+#          description: an existing item already exists
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/Balances'
+#        description: Inventory item to add
+  /v1/changer/trade:
+    post:
+      tags:
+        - Trade
+      summary: ''
+      description: Place a order.
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              type: object
+              required:
+              - ticker 
+              - quantity
+              - action
+              - version
+              - id
+              properties:
+                ticker:
+                  type: string
+                  example: 'btc_usdt'
+                quantity : 
+                  type: string 
+                  example: '1'
+                action : 
+                  type: string
+                  example: 'sell'
+                version : 
+                  type: integer
+                  example: 4
+                id : 
+                  type: string
+                  example: '06b3a147-831c-462f-b24a-439cfa510373'
+      responses:
+        '200':
+          description: item created
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trade'
+        '401':
+          description: Unauthorized
+  /v1/changer/trades:
+    get:
+      tags:
+        - Trade
+      summary: ''
+      operationId: ''
+      description: 'Get trade lists'
+      parameters:
+        - in: query
+          name: start
+          description: a pair to get a quote
+          required: true
+          schema:
+            type: integer
+            example: 0
+        - in: query
+          name: length
+          description: quantity to sell or buy 
+          required: true
+          schema: 
+            type: integer
+            format: int32
+            example : 10
+        - in: query
+          name: type
+          description: quantity to sell or buy 
+          required: true
+          schema: 
+            type: string
+            example : trade
+      responses:
+        '200':
+          description: trade succes
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeList'
+        '401':
+          description: Unauthorized
+  /v1/common/market:
+    get:
+      tags:
+        - Common
+      summary: ''
+      operationId: ''
+      security: []
+      description: show all pairs
+      responses:
+        '200':
+          description: List all pairs to trade.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pairs'
+        '401':
+          description: Unauthorized
+  /v1/common/token:
+    post:
+      tags:
+        - Common
+      summary: ''
+      operationId: ''
+      security: []
+      description: Generate a bearer token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                access_key:   
+                  type: string
+                secret_key:   
+                  type: string
+      responses:
+        '200':
+          description: Get a bearer token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                    status: 
+                      type: string
+                      example: 'ok'
+                    token:
+                      type: string
+                      example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMGU1Y2FiYjcxZjg2NjU1OTliZjQxOSIsInR5cGUiOiJpbeaefmRpdmlkdWFsIiwiZW1haWwiOiJrbXBhcmtAYafasfasfea2hhaW5wYXJ0bmVycy5uZXQiLCJlbWFpbF'
+security:
+  - bearerAuth : []
+components:
+  securitySchemes:
+#    api_auth:
+#      type: apiKey
+#      description: API key to authorize requests.
+#      name: apikey
+#      in: header
+    bearerAuth: 
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Balances:
+      type: object
+      required:
+       - status
+       - totalCount
+       - balances
+      properties:
+        status: 
+          type: string
+          example: 'ok'
+        totalCount:
+          type: integer
+          format: int64
+          example: 2
+        balances:
+          type: array
+          items: 
+            type: object
+            properties:
+              available:
+                type: string
+              locked:
+                type: string
+              currency:
+                type: string
+          example: 
+            - "available": "0.71"
+              "locked": "0"
+              "currency": "btc"
+            - "available": "1.25"
+              "locked": "0"
+              "currency": "eth"
+    Quote: 
+      type: object
+      required:
+       - status
+       - origin
+       - quote
+      properties:
+        status:
+          type: string
+          example: 'ok'
+        origin:
+          type: string
+          example: 'cumberland'
+        quote:
+          type: object
+          properties:
+            requestId:
+              type: string
+              example : 'BTC_USDT:USDT:100-20438244-879e-4bc3-b523-3d04def0bdf8"'
+            responseId: 
+              type: object 
+              properties:
+                version:
+                  type: integer
+                  example: 1
+                id: 
+                  type: string
+                  example: "a5a3dca3-36f6-4d1a-b43f-c87327285754"
+            quoteData: 
+              type: object
+              properties:
+                ticker:
+                  type: string
+                  example: "BTC_USDT"
+                currency: 
+                  type: string
+                  example: "USDT" 
+                buy : 
+                  type: object
+                  properties: 
+                    quantity: 
+                      type: integer
+                      example : 0.0052108
+                    price: 
+                      type: integer                    
+                      example : 19190.9
+                    amount:
+                      type: integer                    
+                      example : 100
+                sell : 
+                  type: object
+                  properties: 
+                    quantity: 
+                      type: integer
+                      example : 0.00520289
+                    price: 
+                      type: integer      
+                      example : 19220.1
+                    amount:
+                      type: integer      
+                      example : 100
+    Trade: 
+      type: object
+      required:
+       - status
+       - tradeId
+      properties:
+        status:
+          type: string
+          example: 'ok'
+        origin:
+          type: string
+          example: '5fd7a516f5348a7544ad0407'
+    TradeList: 
+      type: object
+      required: 
+       - status
+       - trades
+       - totalCount
+      properties:
+        status: 
+          type: string
+          example: 'ok'
+        totalCount:
+          type: integer
+          format: int64
+          example: 1
+        trades:
+          type: array
+          items: 
+            type: object
+            properties:
+              type:
+                type: string
+              status:
+                type: string
+              market:
+                type: object
+              side:
+                type: string
+              price:
+                type: string
+              volume:
+                type: string
+              amount:
+                type: string
+              info:
+                type: object
+              createdAt:
+                type: integer
+              updatedAt:
+                type: integer
+              readableCreatedAt:
+                type: string
+              readableUpdatedAt:
+                type: string
+          example: 
+            - "type": "0.71"
+              "status": "0"
+              "market": { "name":"btc_usdt","id":"5cdaaca62a13dc2b280b572d"}
+              "side" : "buy"
+              "price" : "33521.6"
+              "volume" : "0.00298315"
+              "amount" : "100"
+              "info": {"tradeId": "5bed8498-aec6-4800-b921-1ad9aeb74dcf", "action":         "BUY","ticker": "BTC_USDT", "currency": "USDT", "quantity":         0.00300771,"price": 33247.9,"amount": 100,"origin":               "cumberland"
+                      }
+              "createdAt": 1611556149091
+              "updatedAt": 1611556149091
+              "readableCreatedAt": "2021-01-25 15:29:09"
+              "readableUpdatedAt": "2021-01-25 15:29:09"
+              "id": "600e6535fe0d4b2b1322344b"
+    Pairs: 
+      type: object
+      required:
+       - status
+       - markets
+      properties:
+        status:
+          type: string
+          example: 'ok'
+        markets:
+          type: array
+          items: 
+            type: object
+            properties: 
+              baseCurrency : 
+                type: object
+              quoteCurrency :
+                type: object
+              id: 
+                type: string
+          example:
+            - "baseCurrency": {"name": "xrp", "id": "5cdaab544fee8b2a6dd64e98"}
+              "quoteCurrency": { "name": "usdt", "id": "5cdaab544fee8b2a6dd64e7c"}
+              "id": "5cdaaca62a13dc2b280b573b"
+            - "baseCurrency": {"name": "eos", "id": "5cdaab544fee8b2a6dd64e81"}
+              "quoteCurrency": { "name": "btc", "id": "5cdaab544fee8b2a6dd64e7d"}
+              "id": "5cdaab544fee8b2a6dd64e7d"

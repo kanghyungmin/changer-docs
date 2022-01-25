@@ -1,245 +1,139 @@
----
-title: API Reference
+--- 
 
-language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
-  - python
-  - javascript
+title: Changer Pro API 
 
-toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
+language_tabs: 
+   - shell 
 
-includes:
-  - errors
+toc_footers: 
+   - <a href='#'>Sign Up for a Developer Key</a> 
+   - <a href='https://github.com/lavkumarv'>Documentation Powered by lav</a> 
 
-search: true
+includes: 
+   - errors 
 
-code_clipboard: true
+search: true 
 
-meta:
-  - name: description
-    content: Documentation for the Kittn API
----
+--- 
 
-# Introduction
+# Introduction 
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+**Version:** 1.0.0 
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+# /V1/BALANCES
+## ***GET*** 
 
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+**Summary:** 
 
-# Authentication
+**Description:** show all balance for each pair
 
-> To authorize, use this code:
+### HTTP Request 
+`***GET*** /v1/balances` 
 
-```ruby
-require 'kittn'
+**Responses**
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
+| Code | Description |
+| ---- | ----------- |
+| 200 | List all balances. |
+| 401 | Unauthorized |
 
-```python
-import kittn
+# /V1/CHANGER/QUOTE
+## ***GET*** 
 
-api = kittn.authorize('meowmeowmeow')
-```
+**Summary:** 
 
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here" \
-  -H "Authorization: meowmeowmeow"
-```
+**Description:** Get a quote for a input pair.
 
-```javascript
-const kittn = require('kittn');
+### HTTP Request 
+`***GET*** /v1/changer/quote` 
 
-let api = kittn.authorize('meowmeowmeow');
-```
+**Parameters**
 
-> Make sure to replace `meowmeowmeow` with your API key.
+| Name | Located in | Description | Required | Type |
+| ---- | ---------- | ----------- | -------- | ---- |
+| ticker | query | a pair to get a quote | Yes |  |
+| quantity | query | quantity to sell or buy | Yes |  |
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+**Responses**
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+| Code | Description |
+| ---- | ----------- |
+| 200 | item created |
+| 401 | Unauthorized |
 
-`Authorization: meowmeowmeow`
+# /V1/CHANGER/TRADE
+## ***POST*** 
 
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
+**Summary:** 
 
-# Kittens
+**Description:** Place a order.
 
-## Get All Kittens
+### HTTP Request 
+`***POST*** /v1/changer/trade` 
 
-```ruby
-require 'kittn'
+**Responses**
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
+| Code | Description |
+| ---- | ----------- |
+| 200 | item created |
+| 401 | Unauthorized |
 
-```python
-import kittn
+# /V1/CHANGER/TRADES
+## ***GET*** 
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
+**Summary:** 
 
-```shell
-curl "http://example.com/api/kittens" \
-  -H "Authorization: meowmeowmeow"
-```
+**Description:** Get trade lists
 
-```javascript
-const kittn = require('kittn');
+### HTTP Request 
+`***GET*** /v1/changer/trades` 
 
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
+**Parameters**
 
-> The above command returns JSON structured like this:
+| Name | Located in | Description | Required | Type |
+| ---- | ---------- | ----------- | -------- | ---- |
+| start | query | a pair to get a quote | Yes |  |
+| length | query | quantity to sell or buy | Yes |  |
+| type | query | quantity to sell or buy | Yes |  |
 
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
+**Responses**
 
-This endpoint retrieves all kittens.
+| Code | Description |
+| ---- | ----------- |
+| 200 | trade succes |
+| 401 | Unauthorized |
 
-### HTTP Request
+# /V1/COMMON/MARKET
+## ***GET*** 
 
-`GET http://example.com/api/kittens`
+**Summary:** 
 
-### Query Parameters
+**Description:** show all pairs
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+### HTTP Request 
+`***GET*** /v1/common/market` 
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+**Responses**
 
-## Get a Specific Kitten
+| Code | Description |
+| ---- | ----------- |
+| 200 | List all pairs to trade. |
+| 401 | Unauthorized |
 
-```ruby
-require 'kittn'
+# /V1/COMMON/TOKEN
+## ***POST*** 
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
+**Summary:** 
 
-```python
-import kittn
+**Description:** Generate a bearer token.
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
+### HTTP Request 
+`***POST*** /v1/common/token` 
 
-```shell
-curl "http://example.com/api/kittens/2" \
-  -H "Authorization: meowmeowmeow"
-```
+**Responses**
 
-```javascript
-const kittn = require('kittn');
+| Code | Description |
+| ---- | ----------- |
+| 200 | Get a bearer token. |
 
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2" \
-  -X DELETE \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
-
+<!-- Converted with the swagger-to-slate https://github.com/lavkumarv/swagger-to-slate -->
