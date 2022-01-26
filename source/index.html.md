@@ -45,7 +45,7 @@ const jwtToken = jwt.sign(payload, '<secret_key>');
 
 Changer uses API keys to grant access.  
 You can create API keys to contact <help@changer.io>.   
-Then You can get a API keys, which consists of a access key(`access_key`) and a secret key(`secret_key`).
+Then, you can get a API keys which consists of a access key(`access_key`) and a secret key(`secret_key`).
 
 As a next step, you should generate a jwt token with API keys by referring to the example code. 
 The token should be included in most API requests to the server in the Authorization header that looks like the following:
