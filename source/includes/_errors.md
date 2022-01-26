@@ -3,8 +3,8 @@
 The Changer API uses the following error codes:
 
 
-Error Code | Meaning
----------- | -------
+Error Code | Meaning |
+:----------: | ------- |<Align>
 400 | Bad Request -- Your request is invalid.
 401 | Unauthorized -- Your token is wrong.
 405 | Method Not Allowed -- You tried to access our server with an invalid method.

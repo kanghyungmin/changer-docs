@@ -7,7 +7,6 @@ language_tabs:
 
 toc_footers: 
   #  - <a href='#'>Sign Up for a Developer Key</a> 
-  #  - <a href='https://github.com/lavkumarv'>Documentation Powered by lav</a> 
 
 includes: 
    - errors 
@@ -45,15 +44,16 @@ const jwtToken = jwt.sign(payload, '<secret_key>');
 ```
 
 Changer uses API keys to grant access.  
-You can create a new Chaner API key to contact <help@changer.io>
+You can create API keys to contact <help@changer.io>.   
+Then You can get a API keys, which consists of a access key(`access_key`) and a secret key(`secret_key`).
 
-First, you should get a jwt token with both access key(`access_key`) and secret key(`secret_key`).
+As a next step, you should generate a jwt token with API keys by referring to the example code. 
 The token should be included in most API requests to the server in the Authorization header that looks like the following:
 
 `Authorization: Bearer <token>`
 # REST Endpoints
 | Endpoint | Description |
-| ---- | ----------- |
+| :----: | :----------- |<Align>
 | Production | https://api.changer.io |
 | Sandbox | [Contact Us](help@changer.io) | 
 
@@ -101,7 +101,8 @@ request(options, function (error:any, response: any) {
 <!-- **Summary:**  -->
 
 
-**Description:** show all balance for each pair
+### Description
+Show all balance for each pair
 
 ### HTTP Request 
 `GET /v1/balances` 
@@ -157,11 +158,12 @@ request(options, function (error:any, response: any) {
 }
 ```
 
-**Description:** Get all pairs to trade
+### Description 
+Get all pairs to trade
 ### HTTP Request 
 `GET /v1/common/market` 
 
-## Get Quote information
+## Get Quote Information
 ```javascript
 const request = require('request');
 const options = {
@@ -208,21 +210,22 @@ request(options, function (error:any, response: any) {
   }
 }
 ```
-**Description:** Get a quote information.
+### Description 
+Get a quote information.
 
 ### HTTP Request 
 `GET /v1/changer/quote` 
 
-**Parameters**
+### Parameters
 
 | Name | Location | Description | Required | Type |
-| ---- | ---------- | ----------- | -------- | ---- |
-| ticker | query | a pair to get a quote | Yes | string |
-| quantity | query | quantity to sell or buy | Yes | string |
+| :----: | :----------: | :----------- | :--------: | :----: |<Align>
+| ticker | query | ticker name | Yes | string |
+| quantity | query | trade volume | Yes | string |
 
 
 # Orders
-## Place a order
+## Place a Order
 ```javascript
 const request = require('request');
 const reqBody = JSON.stringify({
@@ -273,22 +276,21 @@ request(options, function (error:any, response: any) {
   }
 }
 ```
-**Description:** Place a order.
+### Description
+Place a order.
 
 ### HTTP Request 
 `POST /v1/changer/trade` 
 
-**Parameters**
+### Parameters
 
-| Name | Located in | Description | Required | Type |
-| ---- | ---------- | ----------- | -------- | ---- |
+| Name | Location | Description | Required | Type |
+| :----: | :----------: | :----------- | :--------: | :----: |<Align>
 | ticker | body | ticker name | Yes | string |
 | quantity | body | trade volume | Yes | string |
 | action | body | buy or sell | Yes | string |
-| version | body | ????????? | Yes | number |
-| id | body | ????????? | Yes | string |
 
-## Get trade lists
+## Get Trade Lists
 ```javascript
 const request = require('request');
 const options = {
@@ -342,15 +344,16 @@ request(options, function (error:any, response: any) {
   ]
 }
 ```
-**Description:** Get trade lists
+### Description
+Get trade lists
 
 ### HTTP Request 
 `GET /v1/changer/trades` 
 
-**Parameters**
+### Parameters
 
-| Name | Located in | Description | Required | Type |
-| ---- | ---------- | ----------- | -------- | ---- |
-| start | query | ????????? | Yes | string |
-| length | query | ????????? | Yes | string |
-| type | query | ????????? | Yes | string |
+| Name | Locattion | Description | Required | Type |
+| :----: | :----------: | :-------------------------- | :--------: | :-----: |<Align>
+| start | query | the strat index to bring in the tradeing list. For example, '0' is the latest trade | Yes | string |
+| length | query | the number of items to be taken sequentially form the start index  | Yes | string |
+| type | query | As a trading type. It is one of the three among trade, liqudation, and settlement.   | Yes | string |
