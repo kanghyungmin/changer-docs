@@ -1,4 +1,4 @@
-name: Build
+name: Deploy To S3
 
 on:
   push:
@@ -48,4 +48,14 @@ jobs:
       with: 
         name: staticFiles
         path: /home/runner/work/changer-docs/changer-docs/build/
+
+    - name: Deploy
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: |
+        aws s3 cp \
+          --recursive \
+          --region ap-northeast-2 \
+          dist s3://cefi-api-example
 
