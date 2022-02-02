@@ -44,9 +44,11 @@ jobs:
     # - name: List files in the repository
     #   run: |
     #     ls ${{ github.workspace }}
-    - name: Changelog
-      uses: scottbrenner/generate-changelog-action@master
-      id: Changelog
+    - name: Build Changelog
+      id: github_release
+      uses: mikepenz/release-changelog-builder-action@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - uses: actions/upload-artifact@v2
       with: 
@@ -74,6 +76,5 @@ jobs:
       with:
         tag: ${{ steps.tag_version.outputs.new_tag }}
         name: Release ${{ steps.tag_version.outputs.new_tag }}
-        body: |
-          ${{ steps.Changelog.outputs.changelog }}
+        body: ${{steps.github_release.outputs.changelog}}
 
