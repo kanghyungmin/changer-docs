@@ -73,5 +73,5 @@ jobs:
       with:
         tag: ${{ steps.tag_version.outputs.new_tag }}
         name: Release ${{ steps.tag_version.outputs.new_tag }}
-        body: ${{ steps.changelog.outputs.changelog }}
+        body: ${{ steps.changelog.outputs.changelo }}
 
