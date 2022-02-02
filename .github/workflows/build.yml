@@ -2,9 +2,9 @@ name: Deploy To S3
 
 on:
   push:
-    branches: [ '*' ]
+    branches: [ 'main' ]
   pull_request:
-    branches: [ '*' ]
+    branches: [ 'main' ]
   
 
 jobs:
