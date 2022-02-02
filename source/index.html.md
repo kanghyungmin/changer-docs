@@ -1,6 +1,6 @@
 --- 
 
-title: Changer Pro I 
+title: Changer Pro API
 
 language_tabs: 
    - javascript
