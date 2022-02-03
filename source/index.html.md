@@ -19,7 +19,8 @@ search: true
 
 **Version:** 1.0.0 
 
-Welcome to the Changer API!
+Welcome to the Changer!
+
 
 Changer offers a REST API to access market data, manage your account, and create orders.
 
